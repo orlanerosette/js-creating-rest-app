@@ -1,24 +1,29 @@
 // Importing package
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 require('dotenv/config');
 
 // Executing package
 const app = express();
 
-// Middlewares - functions that executes when routes are being hit
-// app.use('/posts', () => {
-//   console.log('This is a middleware running'); // each time we go to /posts this middleware is being executed
-// });
+// Converts all req.body data into JSON (Middleware)
+app.use(bodyParser.json());
+
+// Allows you to access site across all domains
+app.use(cors());
+
+// Importing Routes
+const postsRouter = require('./routes/posts');
+
+// Specifying Routes - Example of Middleware
+app.use('/posts', postsRouter);
 
 
 // ROUTES
 app.get('/', (req,res) => {
   res.send('We are on home');
-});
-
-app.get('/posts', (req,res) => {
-  res.send('We are on posts');
 });
 
 // Connect to Database
